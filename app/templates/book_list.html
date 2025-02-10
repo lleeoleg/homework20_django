@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        .pagination {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            color: #007bff;
+            border-radius: 5px;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .pagination a.disabled {
+            pointer-events: none;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+        {% for book in books %}
+            <div class="book-card">
+                <p><strong>{{ book.title }}</strong></p>
+                <p>{{ book.author }}</p>
+                <p>{{ book.genre }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo; Назад</a>
+        {% else %}
+            <a class="disabled">&laquo; Назад</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            <a href="?page={{ num }}" class="{% if num == page_obj.number %}active{% endif %}">{{ num }}</a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Вперёд &raquo;</a>
+        {% else %}
+            <a class="disabled">Вперёд &raquo;</a>
+        {% endif %}
+    </div>
+
+</body>
+</html>
